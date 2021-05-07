@@ -4,6 +4,8 @@ import pandas as pd
 import base64
 import time
 
+client = ds.RestClient("adrian.skowron@brainly.com", "6a82d00b8f673110")
+
 st.title("SERP Scraping Tool")
 
 st.subheader("Put you keywords")
@@ -14,12 +16,41 @@ if len(keywords_line_area) > 100:
 	st.warning(f"You reach maximum number of keywords. Only first {100} will be processed.")
 	keywords_line_area = keywords_line_area[:100]
 
+#Setup Sidebar
+st.sidebar.subheader('Scrape Setup')
+st.sidebar.write('Make setup before clicking **Send Keywords to Scrape**')
+#Device picker
+device = st.sidebar.selectbox("Select Device", ['desktop','mobile'])
+#Market picker
+market = st.sidebar.selectbox("Select Market",['US','PL','TR', 'IN'])
+#Language picker
+language = st.sidebar.selectbox("Select Language", ['en','pl','hi', 'tr'])
+#Number of results picker
+#results_number = st.sidebar.slider("Slide for number of results", min_value=0, max_value=100)
+
+location_csv = pd.read_csv('locations_serp_2021_03_10.csv')
+locations = location_csv[(location_csv['country_iso_code'] == market) & (location_csv['location_type'] == 'Country')]
+for x in locations['location_code']:
+	location_code = x
+
+def Post_mobile_data2(keywords):
+	post_data = dict()
+	post_data[len(post_data)] = dict(
+		language_code=language,
+		location_code=location_code,
+		device=device,
+		keyword=keywords)
+	time.sleep(0.75)
+	response = client.post("/v3/serp/google/organic/task_post", post_data)
+	#print(response)
+	post_data.clear()
+
 send_keywords_button = st.button('Send Keywords to Scrape')
 @st.cache
 def Send_kws():
 	if send_keywords_button == True:
 		for kws in keywords_line_area:
-			ds.Post_mobile_data2(kws)
+			Post_mobile_data2(kws)
 	return
 data = Send_kws()
 
