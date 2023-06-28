@@ -1,5 +1,5 @@
 from .client import RestClient
-client = RestClient("adrian.skowron@brainly.com", "6a82d00b8f673110")
+client = RestClient("mail", "pass")
 
 def Check_results():
 	response = client.get("/v3/serp/google/organic/tasks_ready")

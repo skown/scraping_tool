@@ -4,7 +4,7 @@ import pandas as pd
 import base64
 import time
 
-client = ds.RestClient("adrian.skowron@brainly.com", "6a82d00b8f673110")
+client = ds.RestClient("mail", "pass")
 
 st.title("SERP Scraping Tool")
 

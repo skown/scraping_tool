@@ -3,7 +3,7 @@ import pandas as pd
 import time
 from csv import reader
 
-client = RestClient("adrian.skowron@brainly.com", "6a82d00b8f673110")
+client = RestClient("mail", "pass")
 market = 'US'
 location_csv = pd.read_csv('locations_serp_2021_03_10.csv')
 locations = location_csv[(location_csv['country_iso_code'] == market) & (location_csv['location_type'] == 'Country')]
