@@ -1,5 +1,5 @@
 hide.py
-*.csv
+#*.csv
 env/
 __pycache__/
 dfs_scripts/__pycache__/
